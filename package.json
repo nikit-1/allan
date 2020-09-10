@@ -1,0 +1,18 @@
+{
+  "name": "allan",
+  "version": "1.0.0",
+  "author": "N. V. Tribulev <tribulev@gmail.com>",
+  "license": "MIT",
+  "description": "Javascript Allan Variance library",
+  "keywords": [
+    "Allan",
+    "variance"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^26.4.2"
+  }
+}
