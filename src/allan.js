@@ -8,18 +8,19 @@ const DATA_TYPES = {
 module.exports = {
   /**
    * Calculates Standard Allan deviation.
-   * @param {array} data - Array of data
-   * @param {string} data_type - 'freq' for frequency, 'phase' - for phase data
-   * @param {number} rate - Rate of data samples
-   * @param {array} time_data - Optional time data
-   * @returns {array}
+   * @param {Array.<Number>} data - Array of data
+   * @param {String} [data_type] - 'freq' for frequency, 'phase' - for phase data
+   * @param {Number} [rate] - Rate of data samples
+   * @param {Array.<Number>} [time_data] - Optional time data
+   * @returns {{tau: array, dev: array}} tau - the time steps for which dev calculated, 
+   * dev - Allan dev values
    */
   allanDev: function(data, data_type = DATA_TYPES.FREQ, rate = 1, time_data) {
     if (!data) throw new Error('Data is invalid');
     if (data_type !== DATA_TYPES.FREQ && data_type !== DATA_TYPES.PHASE) throw new Error('Unknown data type');
     if (data.length < 3) throw new Error('Data length is too small. It should have at least 3 rows');
 
-    let result = []
+    let result = {tau: [], dev: []}
     let len = data.length;
     if (!time_data) {
       time_data = getTauData(1, len / 5, 100);
@@ -36,16 +37,16 @@ module.exports = {
 
       let size = Math.min(x0.length, x1.length, x2.length)
 
-      let time = m * rate;
-      let mult = 2 * size * time ** 2;
+      let tau = m * rate;
+      let mult = 2 * size * tau ** 2;
 
       let sigma = 0
       for (let i = 0; i < size; i++) {
         sigma += (x2[i] - 2 * x1[i] + x0[i])**2
       }
 
-      let res = Math.sqrt(sigma / mult);
-      result.push([time, res])
+      result.tau.push(tau)
+      result.dev.push(Math.sqrt(sigma / mult))
     }
 
     return result
@@ -53,19 +54,19 @@ module.exports = {
 
   /**
    * Calculates Overlapped Allan deviation
-   * @param {array} data - Array of data
-   * @param {string} data_type - 'freq' for frequency, 'phase' - for phase data
-   * @param {number} rate - Rate of data samples
-   * @param {array} time_data - Optional time data
-   * @returns {{atime: array, adev: array, aerr: array}} - a_time - time steps for which dev calculated, 
-   *  a_values - Allan dev values
+   * @param {Array.<Number>} data - Array of data
+   * @param {String} [data_type] - 'freq' for frequency, 'phase' - for phase data
+   * @param {Number} [rate] - Rate of data samples
+   * @param {Array.<Number>} [time_data] - Optional time data
+   * @returns {{tau: array, dev: array}} tau - time steps for which dev calculated, 
+   * dev - Allan dev values
    */
   overAllanDev: function(data, data_type = DATA_TYPES.FREQ, rate = 1, time_data) {
     if (!data) throw new Error('Data is invalid');
     if (data_type !== DATA_TYPES.FREQ && data_type !== DATA_TYPES.PHASE) throw new Error('Unknown data type');
     if (data.length < 3) throw new Error('Data length is too small. It should have at least 3 rows');
 
-    let result = []
+    let result = {tau: [], dev: []}
     let len = data.length;
     if (!time_data) {
       time_data = getTauData(1, len / 5, 100);
@@ -82,16 +83,16 @@ module.exports = {
 
       let size = Math.min(x0.length, x1.length, x2.length)
 
-      let time = m * rate;
-      let mult = 2 * size * time ** 2;
+      let tau = m * rate;
+      let mult = 2 * size * tau ** 2;
 
       let sigma = 0
       for (let i = 0; i < size; i++) {
         sigma += (x2[i] - 2 * x1[i] + x0[i]) ** 2
       }
 
-      let res = Math.sqrt(sigma / mult);
-      result.push([time, res])
+      result.tau.push(tau)
+      result.dev.push(Math.sqrt(sigma / mult))
     }
     return result
   }
