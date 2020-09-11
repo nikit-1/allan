@@ -5,8 +5,10 @@
   "license": "MIT",
   "description": "Javascript Allan Variance library",
   "keywords": [
-    "Allan",
-    "variance"
+    "Allan variance",
+    "statistical analysis",
+    "variance",
+    "stability"
   ],
   "main": "index.js",
   "scripts": {

@@ -14,7 +14,7 @@ module.exports = {
    * @param {array} time_data - Optional time data
    * @returns {array}
    */
-  adev: function(data, data_type = DATA_TYPES.FREQ, rate = 1, time_data) {
+  allanDev: function(data, data_type = DATA_TYPES.FREQ, rate = 1, time_data) {
     if (!data) throw new Error('Data is invalid');
     if (data_type !== DATA_TYPES.FREQ && data_type !== DATA_TYPES.PHASE) throw new Error('Unknown data type');
     if (data.length < 3) throw new Error('Data length is too small. It should have at least 3 rows');
@@ -34,14 +34,14 @@ module.exports = {
       let x1 = arrayOfEveryNthElements(data, m, m);
       let x0 = arrayOfEveryNthElements(data, 0, m);
 
-      let size = data.length - 2 * m;
+      let size = Math.min(x0.length, x1.length, x2.length)
 
       let time = m * rate;
       let mult = 2 * size * time ** 2;
 
       let sigma = 0
       for (let i = 0; i < size; i++) {
-        sigma += (x2[i] - 2 * x1[i] + x0[i]) ** 2
+        sigma += (x2[i] - 2 * x1[i] + x0[i])**2
       }
 
       let res = Math.sqrt(sigma / mult);
@@ -57,9 +57,10 @@ module.exports = {
    * @param {string} data_type - 'freq' for frequency, 'phase' - for phase data
    * @param {number} rate - Rate of data samples
    * @param {array} time_data - Optional time data
-   * @returns {array}
+   * @returns {{atime: array, adev: array, aerr: array}} - a_time - time steps for which dev calculated, 
+   *  a_values - Allan dev values
    */
-  calcOverlappedAllanDev: function(data, data_type = DATA_TYPES.FREQ, rate = 1, time_data) {
+  overAllanDev: function(data, data_type = DATA_TYPES.FREQ, rate = 1, time_data) {
     if (!data) throw new Error('Data is invalid');
     if (data_type !== DATA_TYPES.FREQ && data_type !== DATA_TYPES.PHASE) throw new Error('Unknown data type');
     if (data.length < 3) throw new Error('Data length is too small. It should have at least 3 rows');
@@ -79,7 +80,7 @@ module.exports = {
       let x1 = arrayOfEveryNthElements(data, m, 1);
       let x0 = arrayOfEveryNthElements(data, 0, 1);
 
-      let size = data.length - 2 * m;
+      let size = Math.min(x0.length, x1.length, x2.length)
 
       let time = m * rate;
       let mult = 2 * size * time ** 2;
@@ -90,7 +91,6 @@ module.exports = {
       }
 
       let res = Math.sqrt(sigma / mult);
-      // console.log(m, sigma, mult, res, data_type);
       result.push([time, res])
     }
     return result

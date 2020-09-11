@@ -1,0 +1,1 @@
+# Javascript Allan variance library
