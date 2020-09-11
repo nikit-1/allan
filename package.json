@@ -10,6 +10,10 @@
     "variance",
     "stability"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nikit-1/allan.git"
+  },
   "main": "index.js",
   "scripts": {
     "test": "jest"
