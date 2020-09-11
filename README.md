@@ -19,8 +19,20 @@ yarn add allan
 ```
 
 ## 2. Library Use
-To calculate standard Allan deviation use the function
+
+For now the library has the following functions:
+- `allanDev` - calculates Standard Allan deviation
+- `overAllanDev` - calculates Overlapped Allan deviation
+
+All these functions have the same structure of the input and output.
+
+Example of the function arguments:
 ```
-allanDev(data, data_type, rate, time_data)
+function allanDev(data, data_type? = 'freq', rate? = 1, time_data?)
 ```
-where `data` — is an array of numbers, `data_type` - is a data type: `freq` (frequency data) or `phase` (phase data), `rate` - rate of data samples, `time_data` - array of data samples for which you want to count Allan deviation. 
+where `data` — is an array of numbers, `data_type` — is a data type: `freq` (frequency data) or `phase` (phase data), `rate` — rate of data samples, `time_data` — array of data samples for which you want to count Allan deviation. 
+
+
+`{ tau: Array<Number>, dev: Array<Number> }`
+
+where `tau` - is an array of time values for which deviation is calculated, `dev` - is an array of deviation values.
