@@ -1,6 +1,6 @@
 # Javascript Allan variance library
 
-> :warning: **These is still a beta vesion** a lot will be changed. Better wait for more stable version before use
+> :warning: **This is still a beta vesion** a lot will be changed. Better wait for more stable version before use
 
 ## 1. Theory & formulas
 
@@ -26,13 +26,13 @@ For now the library has the following functions:
 
 All these functions have the same structure of the arguments and the same structure of the output object.
 
-#### Example of the function
+### Example of the function
 ```
 function allanDev(data, data_type? = 'freq', rate? = 1, time_data?)
 ```
 where `data` — is an array of numbers, `data_type` — is a data type: `freq` (frequency data) or `phase` (phase data), `rate` — rate of data samples, `time_data` — array of data samples for which you want to count Allan deviation. 
 
-#### Structure of the output object
+### Structure of the output object
 
 `{ tau: Array<Number>, dev: Array<Number> }`
 
