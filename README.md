@@ -4,7 +4,7 @@
   <img src="https://github.com/nikit-1/allan/workflows/GitHub%20Test%20&%20NPM%20Publish/badge.svg" />
 </p>
 
-> :warning: **This is still a beta vesion** a lot will be changed. Better wait for more stable version before use
+> :warning: **This is a beta vesion**. Some changes in naming and structure still possible.
 
 ## 1. Theory & formulas
 
@@ -50,7 +50,7 @@ The description of the function arguments:
 | `data`             | Array\<Number>            | —        | Array of data samples |
 | `data_type`        | String 'freq' or 'phase'  | 'freq'   | Type of data samples: 'freq' (frequency data) or 'phase' (phase data) |
 | `rate`             | Number                    | 1        | Data samples rate |
-| `tau_data`         | Number or Array\<Number>  | 100      | Number of taus for which you want to count Allan deviation (will be logarithmically spaced) or the array of integers (number of values sampled) for which you want to count Allan deviation, for example [1, 2, 4, 8, 16, 32, ...] |
+| `tau_data`         | Number or Array\<Number>  | 100      | Number of taus for which you want to count Allan deviation (will be logarithmically spaced) <br /> or the array of integers (number of values sampled) for which you want to count Allan deviation, for example [1, 2, 4, 8, 16, 32, ...] |
 
 ### Structure of the output object:
 ```
