@@ -5,6 +5,7 @@ const {time, adev_freq, adev_phase, oadev_freq, oadev_phase} = require('./test-d
 describe('Testing: Standard Allan Variance Function', () => {
   let time_limit = 300;
   let samples = 100000;
+
   test(`Time should take less than ${time_limit}ms for ${samples} samples freq data`, () => {
     let data = utils.getTestData(samples)
     let start = new Date()
@@ -19,7 +20,7 @@ describe('Testing: Standard Allan Variance Function', () => {
     expect(new Date() - start).toBeLessThan(time_limit)
   })
 
-  test('Values for freq should be right', () => {
+  test('Control values for freq should be right', () => {
     let data = utils.getTestData(100000);
     let {tau, dev} = allan.allanDev(data, 'freq');
     for (let i in tau) {
@@ -28,7 +29,7 @@ describe('Testing: Standard Allan Variance Function', () => {
     }
   })
 
-  test('Values for phase should be right', () => {
+  test('Control values for phase should be right', () => {
     let data = utils.getTestData(100000);
     let {tau, dev} = allan.allanDev(data, 'phase');
     for (let i in tau) {
@@ -55,7 +56,7 @@ describe('Testing: Overlapped Allan Variance Function', () => {
     expect(new Date() - start).toBeLessThan(time_limit)
   })
 
-  test('Values for freq should be right', () => {
+  test('Control values for freq should be right', () => {
     let data = utils.getTestData(100000);
     let {tau, dev} = allan.overAllanDev(data, 'freq');
     for (let i in tau) {
@@ -64,7 +65,7 @@ describe('Testing: Overlapped Allan Variance Function', () => {
     }
   })
 
-  test('Values for phase should be right', () => {
+  test('Control values for phase should be right', () => {
     let data = utils.getTestData(100000);
     let {tau, dev} = allan.overAllanDev(data, 'phase');
     for (let i in tau) {

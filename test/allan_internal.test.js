@@ -1,13 +1,47 @@
 const allan_internal = require('../src/allan_internal')
 const {time} = require('./test-data')
+const utils = require('../src/utils')
 
-describe('Testing getTauData function', () => {
-  let mytime = allan_internal.getTauData(1, 20000, 100);
+describe('Testing Validation function', () => {
+  it(`should throw an Error for wrong data`, () => {
+    expect(() => allan_internal.validateData('data')).toThrow()
+  })
+
+  it(`should throw an Error for small data`, () => {
+    let data = utils.getTestData(4)
+    expect(() => allan_internal.validateData(data)).toThrow()
+  })
+
+  it(`should throw an Error for wrong data_type`, () => {
+    let data = utils.getTestData(10)
+    expect(() => allan_internal.validateData(data, 'abc')).toThrow()
+  })
+
+  it(`should throw an Error for wrong rate value`, () => {
+    let data = utils.getTestData(10)
+    expect(() => allan_internal.validateData(data, 'freq', -1)).toThrow()
+    expect(() => allan_internal.validateData(data, 'freq', 0)).toThrow()
+    expect(() => allan_internal.validateData(data, 'freq', 'rate')).toThrow()
+  })
+
+  it(`should throw an Error for wrong tau_data`, () => {
+    let data = utils.getTestData(10)
+    expect(() => allan_internal.validateData(data, 'freq', 1, 'dsf')).toThrow()
+    expect(() => allan_internal.validateData(data, 'freq', 1, [])).toThrow()
+    expect(() => allan_internal.validateData(data, 'freq', 1, [1, 1.5, 3, 5.5])).toThrow()
+    expect(() => allan_internal.validateData(data, 'freq', 1, 1.56)).toThrow()
+    expect(() => allan_internal.validateData(data, 'freq', 1, 0)).toThrow()
+    expect(() => allan_internal.validateData(data, 'freq', 1, -2)).toThrow()
+  })
+})
+
+describe('Testing generateLogTauData function', () => {
+  let mytime = allan_internal.generateLogTauData(1, 20000, 100);
 
   test('2 points interval should return start and finish', () => {
     let start = 13;
     let finish = 149;
-    expect(allan_internal.getTauData(start, finish, 2)).toEqual([start, finish]);
+    expect(allan_internal.generateLogTauData(start, finish, 2)).toEqual([start, finish]);
   });
 
   test('length should be equal', () => {
