@@ -1,5 +1,9 @@
 # Javascript Allan variance library
 
+<p>
+  <img src="https://github.com/nikit-1/allan/workflows/GitHub%20Test%20&%20NPM%20Publish/badge.svg" />
+</p>
+
 > :warning: **This is still a beta vesion** a lot will be changed. Better wait for more stable version before use
 
 ## 1. Theory & formulas
