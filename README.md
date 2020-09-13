@@ -69,4 +69,5 @@ The description of the function arguments:
 ## References
 
 [1] D. W. Allan. Statistics of Atomic Frequency Standards // Proceedings of the IEEE, 1966, Vol. 54, No. 2, p. 221–230.
+
 [2] Allan variance. https://en.wikipedia.org/wiki/Allan_variance
