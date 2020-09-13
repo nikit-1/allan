@@ -6,6 +6,14 @@
 
 Allan variance is a beautiful instrument for the stability analysis of the signal measurements. This instrument is widely used in various fields, like: time-keeping, oscillators, gyroscopes, accelerometers and others.
 
+The Allan variance equation [1, 2]:
+
+<p align="center">
+<img src="https://render.githubusercontent.com/render/math?math=\sigma^2_y(\tau) = \frac{1}{2} \langle ( \widebar{y}_{n %2B 1} - \widebar{y}_{n} )^2 \rangle">
+</p>
+
+where <img src="https://render.githubusercontent.com/render/math?math=\tau"> is the observation period, <img src="https://render.githubusercontent.com/render/math?math=\widebar{y}_{n}"> is the nth fractional frequency average over the observation time <img src="https://render.githubusercontent.com/render/math?math=\tau">.
+
 ## 2. Installation
 
 You can install it through npm
@@ -26,18 +34,35 @@ For now the library has the following functions:
 
 All these functions have the same structure of the arguments and the same structure of the output object.
 
-### Example of the function
+### Example of the Allan deviation function
+
 ```
-function allanDev(data, data_type? = 'freq', rate? = 1, time_data?)
+function allanDev(data, data_type?, rate?, time_data?)
 ```
-where `data` — is an array of numbers, `data_type` — is a data type: `freq` (frequency data) or `phase` (phase data), `rate` — rate of data samples, `time_data` — array of data samples for which you want to count Allan deviation. 
+The description of the function arguments:
 
-### Structure of the output object
+| Argument           | Type                      | Default  | Description |
+| :----------------- |:------------------------- | :------- | :---------- |
+| `data`             | Array\<Number>            | —        | Array of data samples |
+| `data_type`        | String 'freq' or 'phase'  | 'freq'   | Type of data samples: 'freq' (frequency data) or 'phase' (phase data) |
+| `rate`             | Number                    | 1        | Data samples rate |
+| `tau_data`         | Number or Array\<Number>  | 100      | Number of taus for which you want to count Allan deviation (will be logarithmically spaced) or the array of integers (number of values sampled) for which you want to count Allan deviation, for example [1, 2, 4, 8, 16, 32, ...] |
 
-`{ tau: Array<Number>, dev: Array<Number> }`
+### Structure of the output object:
+```
+{ 
+  tau: Array<Number>, 
+  dev: Array<Number> 
+}
+```
 
-where `tau` - is an array of time values for which deviation is calculated, `dev` - is an array of deviation values.
+
+| Argument        | Type            | Description |
+| :-------------- |:--------------- | :---------- |
+| `tau`           | Array\<Number>  | Array of the tau values |
+| `dev`           | Array\<Number>  | Array of the deviation values for the corresponding tau |
 
 ## References
 
 [1] D. W. Allan. Statistics of Atomic Frequency Standards // Proceedings of the IEEE, 1966, Vol. 54, No. 2, p. 221–230.
+[2] Allan variance. https://en.wikipedia.org/wiki/Allan_variance
