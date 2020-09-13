@@ -1,4 +1,35 @@
+const DATA_TYPES = {
+  PHASE: 'phase',
+  FREQ: 'freq'
+}
+
 module.exports = {
+  DATA_TYPES: DATA_TYPES,
+
+  validateData: function(data, data_type, rate, tau_data) {
+    // data validation
+    if (!data || !Array.isArray(data)) throw new Error('Data is invalid');
+    if (data.length < 5) throw new Error('Data length is too small. It should have at least 5 rows');
+
+    // data_type validation
+    if (data_type !== DATA_TYPES.FREQ && data_type !== DATA_TYPES.PHASE) throw new Error('Unknown data type');
+
+    // rate validation
+    if (rate == 0 || rate < 0 || isNaN(rate)) throw new Error('Rate value should be a valid non-zero positive number')
+
+    // tau_data validation
+    if (!Array.isArray(tau_data) && isNaN(tau_data)) throw new Error('Tau data is invalid, be sure it is either a number or the array of numbers')
+    if (Array.isArray(tau_data) && tau_data.length === 0) throw new Error('Tau data array should not be empty')
+    if (Array.isArray(tau_data)) {
+      for (let i = 0; i < tau_data.length; i++) {
+        if (!Number.isInteger(tau_data[i]) || tau_data[i] <= 0) throw new Error('Tau data array should contain only positive integer values')
+      }
+    }
+    if (typeof tau_data === 'number' && !Number.isInteger(tau_data)) throw new Error('Tau data number should be an integer')
+    if (typeof tau_data === 'number' && tau_data <= 0) throw new Error('Tau data number should be a positive integer')
+
+    return true
+  },
   /**
    * Makes an array of averages by n elements, skips stride elements
    * @param {array} arr - initial array
@@ -24,7 +55,7 @@ module.exports = {
    * @param {number} b - end point
    * @param {number} n - number of points
    */
-  getTauData: function(a, b, n) {
+  generateLogTauData: function(a, b, n) {
     let arr = new Set();
 
     let start = Math.log10(a);
@@ -37,7 +68,7 @@ module.exports = {
     };
     return [...arr]
   },
-  
+
   /**
    * Converts an array of frequency samples to an array of phase samples
    * @param {array} data - array of freqs samples

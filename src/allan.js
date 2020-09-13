@@ -1,9 +1,4 @@
-const {getTauData, arrayOfEveryNthElements, freqToPhase} = require('./allan_internal')
-
-const DATA_TYPES = {
-  PHASE: 'phase',
-  FREQ: 'freq'
-}
+const {generateLogTauData, arrayOfEveryNthElements, freqToPhase, validateData, DATA_TYPES} = require('./allan_internal')
 
 module.exports = {
   /**
@@ -11,26 +6,28 @@ module.exports = {
    * @param {Array.<Number>} data - Array of data
    * @param {String} [data_type] - 'freq' for frequency, 'phase' - for phase data
    * @param {Number} [rate] - Rate of data samples
-   * @param {Array.<Number>} [time_data] - Optional time data
+   * @param {Number | Array.<Number>} [tau_data] - Number of log spaced points for which the deviation will be calculated or the array of integers (number of samples) for which deviation is calculated (not multiplayed by rate!)
    * @returns {{tau: array, dev: array}} tau - the time steps for which dev calculated, 
    * dev - Allan dev values
    */
-  allanDev: function(data, data_type = DATA_TYPES.FREQ, rate = 1, time_data) {
-    if (!data) throw new Error('Data is invalid');
-    if (data_type !== DATA_TYPES.FREQ && data_type !== DATA_TYPES.PHASE) throw new Error('Unknown data type');
-    if (data.length < 3) throw new Error('Data length is too small. It should have at least 3 rows');
+  allanDev: function(data, data_type = DATA_TYPES.FREQ, rate = 1, tau_data = 100) {
+    try {
+      validateData(data, data_type, rate, tau_data)
+    } catch (err) {
+      throw err
+    }
+
+    if (typeof tau_data === 'number') {
+      tau_data = generateLogTauData(1, Math.floor(data.length / 5), Number(tau_data));
+    }
 
     let result = {tau: [], dev: []}
-    let len = data.length;
-    if (!time_data) {
-      time_data = getTauData(1, len / 5, 100);
-    }
 
     if (data_type === DATA_TYPES.FREQ) {
       data = freqToPhase(data, rate);
     }
 
-    for (let m of time_data) {
+    for (let m of tau_data) {
       let x2 = arrayOfEveryNthElements(data, 2 * m, m);
       let x1 = arrayOfEveryNthElements(data, m, m);
       let x0 = arrayOfEveryNthElements(data, 0, m);
@@ -42,7 +39,7 @@ module.exports = {
 
       let sigma = 0
       for (let i = 0; i < size; i++) {
-        sigma += (x2[i] - 2 * x1[i] + x0[i])**2
+        sigma += (x2[i] - 2 * x1[i] + x0[i]) ** 2
       }
 
       result.tau.push(tau)
@@ -57,26 +54,28 @@ module.exports = {
    * @param {Array.<Number>} data - Array of data
    * @param {String} [data_type] - 'freq' for frequency, 'phase' - for phase data
    * @param {Number} [rate] - Rate of data samples
-   * @param {Array.<Number>} [time_data] - Optional time data
+   * @param {Number | Array.<Number>} [tau_data] - Number of log spaced points for which the deviation will be calculated or the array of integers (number of samples) for which deviation is calculated (not multiplayed by rate!)
    * @returns {{tau: array, dev: array}} tau - time steps for which dev calculated, 
    * dev - Allan dev values
    */
-  overAllanDev: function(data, data_type = DATA_TYPES.FREQ, rate = 1, time_data) {
-    if (!data) throw new Error('Data is invalid');
-    if (data_type !== DATA_TYPES.FREQ && data_type !== DATA_TYPES.PHASE) throw new Error('Unknown data type');
-    if (data.length < 3) throw new Error('Data length is too small. It should have at least 3 rows');
+  overAllanDev: function(data, data_type = DATA_TYPES.FREQ, rate = 1, tau_data = 100) {
+    try {
+      validateData(data, data_type, rate, tau_data)
+    } catch (err) {
+      throw err
+    }
+
+    if (typeof tau_data === 'number') {
+      tau_data = generateLogTauData(1, Math.floor(data.length / 5), Number(tau_data));
+    }
 
     let result = {tau: [], dev: []}
-    let len = data.length;
-    if (!time_data) {
-      time_data = getTauData(1, len / 5, 100);
-    }
 
     if (data_type === DATA_TYPES.FREQ) {
       data = freqToPhase(data, rate);
     }
 
-    for (let m of time_data) {
+    for (let m of tau_data) {
       let x2 = arrayOfEveryNthElements(data, 2 * m, 1);
       let x1 = arrayOfEveryNthElements(data, m, 1);
       let x0 = arrayOfEveryNthElements(data, 0, 1);
