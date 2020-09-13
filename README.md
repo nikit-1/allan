@@ -41,7 +41,7 @@ All these functions have the same structure of the arguments and the same struct
 ### Example of the Allan deviation function
 
 ```
-function allanDev(data, data_type?, rate?, time_data?)
+function allanDev(data, data_type?, rate?, tau_data?)
 ```
 The description of the function arguments:
 
