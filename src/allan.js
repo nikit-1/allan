@@ -3,12 +3,11 @@ const {generateLogTauData, arrayOfEveryNthElements, freqToPhase, validateData, D
 module.exports = {
   /**
    * Calculates Standard Allan deviation.
-   * @param {Array.<Number>} data - Array of data
+   * @param {Array.<Number>} data - array of data
    * @param {String} [data_type] - 'freq' for frequency, 'phase' - for phase data
-   * @param {Number} [rate] - Rate of data samples
-   * @param {Number | Array.<Number>} [tau_data] - Number of log spaced points for which the deviation will be calculated or the array of integers (number of samples) for which deviation is calculated (not multiplayed by rate!)
-   * @returns {{tau: array, dev: array}} tau - the time steps for which dev calculated, 
-   * dev - Allan dev values
+   * @param {Number} [rate] - data samples rate
+   * @param {Number | Array.<Number>} [tau_data] - number of log spaced points for which the deviation will be calculated or the array of integers (number of samples) for which deviation is calculated
+   * @returns {{tau: array, dev: array}} tau - the time steps for which dev calculated, dev - Allan dev values
    */
   allanDev: function(data, data_type = DATA_TYPES.FREQ, rate = 1, tau_data = 100) {
     try {
@@ -21,10 +20,11 @@ module.exports = {
       tau_data = generateLogTauData(1, Math.floor(data.length / 5), Number(tau_data));
     }
 
+    let tau0 = 1 / rate;
     let result = {tau: [], dev: []}
 
     if (data_type === DATA_TYPES.FREQ) {
-      data = freqToPhase(data, rate);
+      data = freqToPhase(data, tau0);
     }
 
     for (let m of tau_data) {
@@ -34,7 +34,7 @@ module.exports = {
 
       let size = Math.min(x0.length, x1.length, x2.length)
 
-      let tau = m * rate;
+      let tau = m * tau0;
       let mult = 2 * size * tau ** 2;
 
       let sigma = 0
@@ -51,12 +51,11 @@ module.exports = {
 
   /**
    * Calculates Overlapped Allan deviation
-   * @param {Array.<Number>} data - Array of data
+   * @param {Array.<Number>} data - array of data
    * @param {String} [data_type] - 'freq' for frequency, 'phase' - for phase data
-   * @param {Number} [rate] - Rate of data samples
-   * @param {Number | Array.<Number>} [tau_data] - Number of log spaced points for which the deviation will be calculated or the array of integers (number of samples) for which deviation is calculated (not multiplayed by rate!)
-   * @returns {{tau: array, dev: array}} tau - time steps for which dev calculated, 
-   * dev - Allan dev values
+   * @param {Number} [rate] - data samples rate
+   * @param {Number | Array.<Number>} [tau_data] - number of log spaced points for which the deviation will be calculated or the array of integers (number of samples) for which deviation is calculated
+   * @returns {{tau: array, dev: array}} tau - the time steps for which dev calculated, dev - Allan dev values
    */
   overAllanDev: function(data, data_type = DATA_TYPES.FREQ, rate = 1, tau_data = 100) {
     try {
@@ -69,10 +68,11 @@ module.exports = {
       tau_data = generateLogTauData(1, Math.floor(data.length / 5), Number(tau_data));
     }
 
+    let tau0 = 1 / rate;
     let result = {tau: [], dev: []}
 
     if (data_type === DATA_TYPES.FREQ) {
-      data = freqToPhase(data, rate);
+      data = freqToPhase(data, tau0);
     }
 
     for (let m of tau_data) {
@@ -82,7 +82,7 @@ module.exports = {
 
       let size = Math.min(x0.length, x1.length, x2.length)
 
-      let tau = m * rate;
+      let tau = m * tau0;
       let mult = 2 * size * tau ** 2;
 
       let sigma = 0
