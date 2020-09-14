@@ -18,6 +18,8 @@ The Allan variance equation [1, 2]:
 
 where <img src="https://render.githubusercontent.com/render/math?math=\tau"> is the observation period, <img src="https://render.githubusercontent.com/render/math?math=\widebar{y}_{n}"> is the nth fractional frequency average over the observation time <img src="https://render.githubusercontent.com/render/math?math=\tau">.
 
+There are libraries for other languages: python [3], matlab [4].
+
 ## 2. Installation
 
 You can install it through npm
@@ -70,3 +72,5 @@ The description of the function arguments:
 
 1. D. W. Allan. Statistics of Atomic Frequency Standards // Proceedings of the IEEE, 1966, Vol. 54, No. 2, p. 221–230.
 2. Allan variance. https://en.wikipedia.org/wiki/Allan_variance
+3. Python Allan variance library. https://github.com/aewallin/allantools
+4. Matlab Allan variance library. https://www.mathworks.com/help/fusion/ref/allanvar.html
