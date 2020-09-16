@@ -2,10 +2,11 @@ const allan = require('../src/allan')
 const utils = require('../src/utils')
 const {time, adev_freq, adev_phase, oadev_freq, oadev_phase, mdev_freq, mdev_phase} = require('./test-data')
 
+let samples = 100000;
+const data = utils.generateTestData(samples);
+
 describe('Testing: Standard Allan Variance Function', () => {
-  let time_limit = 300;
-  let samples = 100000;
-  const data = utils.generateTestData(samples);
+  let time_limit = 200;
 
   test(`Time should take less than ${time_limit}ms for ${samples} samples freq data`, () => {
     let start = new Date()
@@ -58,18 +59,16 @@ describe('Testing: Standard Allan Variance Function', () => {
 
 describe('Testing: Overlapped Allan Variance Function', () => {
   let time_limit = 300;
-  let samples = 100000;
-  let data = utils.generateTestData(samples)
 
   test(`Time should take less than ${time_limit}ms for ${samples} samples freq data`, () => {
     let start = new Date()
-    allan.allanDev(data, 'freq')
+    allan.overAllanDev(data, 'freq')
     expect(new Date() - start).toBeLessThan(time_limit)
   })
 
   test(`Time should take less than ${time_limit}ms for ${samples} samples phase data`, () => {
     let start = new Date()
-    allan.allanDev(data, 'phase')
+    allan.overAllanDev(data, 'phase')
     expect(new Date() - start).toBeLessThan(time_limit)
   })
 
@@ -107,15 +106,12 @@ describe('Testing: Overlapped Allan Variance Function', () => {
     }
   })
 
-  test('White Gaussian noise should follow the rules')
 })
 
 
 
 describe('Testing: Modified Allan Variance Function', () => {
   let time_limit = 300;
-  let samples = 100000;
-  let data = utils.generateTestData(samples)
 
   test(`Time should take less than ${time_limit}ms for ${samples} samples freq data`, () => {
     let start = new Date()

@@ -1,4 +1,5 @@
-const {generateLogTauData, freqToPhase, validateData, DATA_TYPES} = require('./allan_internal')
+const {generateLogTauData, freqToPhase, validateData, DATA_TYPES} = require('./allan_internal');
+const SMALLEST_SIZE_VALUE = 3;
 
 module.exports = {
   /**
@@ -29,8 +30,11 @@ module.exports = {
 
     for (let m of tau_data) {
       let tau = m * tau0;
-      result.dev.push(calculateAllanPhase(data, m, tau, false))
-      result.tau.push(tau)
+      let dev = calculateAllanPhase(data, m, tau, false)
+      if (dev !== null) {
+        result.dev.push(dev)
+        result.tau.push(tau)
+      }
     }
 
     return result
@@ -64,13 +68,16 @@ module.exports = {
 
     for (let m of tau_data) {
       let tau = m * tau0;
-      result.dev.push(calculateAllanPhase(data, m, tau, true))
-      result.tau.push(tau)
+      let dev = calculateAllanPhase(data, m, tau, true)
+      if (dev !== null) {
+        result.dev.push(dev)
+        result.tau.push(tau)
+      }
     }
     return result
   },
 
-  
+
   /**
    * Calculates Modified Allan deviation
    * @param {Array.<Number>} data - array of data
@@ -102,20 +109,22 @@ module.exports = {
       let sigma = 0;
       let s = 0;
 
-      for (let i = 0; i < m && i < data.length - 2*m; i++) {
-        s += data[i + 2*m] - 2 * data[i + m] + data[i];
+      for (let i = 0; i < m && i < data.length - 2 * m; i++) {
+        s += data[i + 2 * m] - 2 * data[i + m] + data[i];
       }
-      sigma += s**2;
+      sigma += s ** 2;
 
-      for (let i = 1; i < data.length - 3*m + 1; i++) {
-        s += data[i + 3*m - 1] - 3 * data[i + 2*m - 1] + 3 * data[i + m - 1] - data[i - 1];
-        sigma += s**2;
+      for (let i = 1; i < data.length - 3 * m + 1; i++) {
+        s += data[i + 3 * m - 1] - 3 * data[i + 2 * m - 1] + 3 * data[i + m - 1] - data[i - 1];
+        sigma += s ** 2;
       }
-      let size = data.length - 3*m + 1;
-      let mult = 2 * size * m**2 * tau**2
+      let size = data.length - 3 * m + 1;
+      let mult = 2 * size * m ** 2 * tau ** 2
 
-      result.tau.push(tau)
-      result.dev.push(Math.sqrt(sigma / mult))
+      if (size >= SMALLEST_SIZE_VALUE) {
+        result.tau.push(tau)
+        result.dev.push(Math.sqrt(sigma / mult))
+      }
     }
     return result
   }
@@ -126,9 +135,14 @@ function calculateAllanPhase(data, m, tau, overlap = true) {
   let sigma = 0;
   let stride = overlap ? 1 : m;
   for (let i = 0; i < data.length - 2 * m; i += stride) {
-    sigma += (data[i + 2*m] - 2 * data[i + m] + data[i]) ** 2;
+    sigma += (data[i + 2 * m] - 2 * data[i + m] + data[i]) ** 2;
     size++;
   }
-  let mult = 2 * size * tau**2;
+
+  if (size < SMALLEST_SIZE_VALUE) {
+    return null
+  }
+
+  let mult = 2 * size * tau ** 2;
   return Math.sqrt(sigma / mult)
 }
