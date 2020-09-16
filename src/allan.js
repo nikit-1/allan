@@ -28,22 +28,9 @@ module.exports = {
     }
 
     for (let m of tau_data) {
-      let x2 = arrayOfEveryNthElements(data, 2 * m, m);
-      let x1 = arrayOfEveryNthElements(data, m, m);
-      let x0 = arrayOfEveryNthElements(data, 0, m);
-
-      let size = Math.min(x0.length, x1.length, x2.length)
-
       let tau = m * tau0;
-      let mult = 2 * size * tau ** 2;
-
-      let sigma = 0
-      for (let i = 0; i < size; i++) {
-        sigma += (x2[i] - 2 * x1[i] + x0[i]) ** 2
-      }
-
+      result.dev.push(calculateAllanPhase(data, m, tau, false))
       result.tau.push(tau)
-      result.dev.push(Math.sqrt(sigma / mult))
     }
 
     return result
@@ -76,23 +63,23 @@ module.exports = {
     }
 
     for (let m of tau_data) {
-      let x2 = arrayOfEveryNthElements(data, 2 * m, 1);
-      let x1 = arrayOfEveryNthElements(data, m, 1);
-      let x0 = arrayOfEveryNthElements(data, 0, 1);
-
-      let size = Math.min(x0.length, x1.length, x2.length)
-
       let tau = m * tau0;
-      let mult = 2 * size * tau ** 2;
-
-      let sigma = 0
-      for (let i = 0; i < size; i++) {
-        sigma += (x2[i] - 2 * x1[i] + x0[i]) ** 2
-      }
-
+      result.dev.push(calculateAllanPhase(data, m, tau, true))
       result.tau.push(tau)
-      result.dev.push(Math.sqrt(sigma / mult))
     }
     return result
   }
+}
+
+function calculateAllanPhase(data, m, tau, overlap = true) {
+  let n = 0;
+  let sigma = 0;
+  let stride = overlap ? 1 : m;
+  for (let i = 0; i < data.length - 2 * m; i += stride) {
+    sigma += (data[i + 2*m] - 2 * data[i + m] + data[i]) ** 2;
+    n++;
+  }
+  let mult = 2 * n * tau**2;
+
+  return Math.sqrt(sigma / mult)
 }
