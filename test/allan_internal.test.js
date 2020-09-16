@@ -8,24 +8,24 @@ describe('Testing Validation function', () => {
   })
 
   it(`should throw an Error for small data`, () => {
-    let data = utils.getTestData(4)
+    let data = utils.generateTestData(4)
     expect(() => allan_internal.validateData(data)).toThrow()
   })
 
   it(`should throw an Error for wrong data_type`, () => {
-    let data = utils.getTestData(10)
+    let data = utils.generateTestData(10)
     expect(() => allan_internal.validateData(data, 'abc')).toThrow()
   })
 
   it(`should throw an Error for wrong rate value`, () => {
-    let data = utils.getTestData(10)
+    let data = utils.generateTestData(10)
     expect(() => allan_internal.validateData(data, 'freq', -1)).toThrow()
     expect(() => allan_internal.validateData(data, 'freq', 0)).toThrow()
     expect(() => allan_internal.validateData(data, 'freq', 'rate')).toThrow()
   })
 
   it(`should throw an Error for wrong tau_data`, () => {
-    let data = utils.getTestData(10)
+    let data = utils.generateTestData(10)
     expect(() => allan_internal.validateData(data, 'freq', 1, 'dsf')).toThrow()
     expect(() => allan_internal.validateData(data, 'freq', 1, [])).toThrow()
     expect(() => allan_internal.validateData(data, 'freq', 1, [1, 1.5, 3, 5.5])).toThrow()

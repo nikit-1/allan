@@ -5,7 +5,7 @@ const {time, adev_freq, adev_phase, oadev_freq, oadev_phase, mdev_freq, mdev_pha
 describe('Testing: Standard Allan Variance Function', () => {
   let time_limit = 300;
   let samples = 100000;
-  const data = utils.getTestData(samples);
+  const data = utils.generateTestData(samples);
 
   test(`Time should take less than ${time_limit}ms for ${samples} samples freq data`, () => {
     let start = new Date()
@@ -59,7 +59,7 @@ describe('Testing: Standard Allan Variance Function', () => {
 describe('Testing: Overlapped Allan Variance Function', () => {
   let time_limit = 300;
   let samples = 100000;
-  let data = utils.getTestData(samples)
+  let data = utils.generateTestData(samples)
 
   test(`Time should take less than ${time_limit}ms for ${samples} samples freq data`, () => {
     let start = new Date()
@@ -106,6 +106,8 @@ describe('Testing: Overlapped Allan Variance Function', () => {
       expect(Math.abs((dev[i] - oadev_phase[i] * rate) / (oadev_phase[i] * rate) )).toBeLessThan(0.01);
     }
   })
+
+  test('White Gaussian noise should follow the rules')
 })
 
 
@@ -113,7 +115,7 @@ describe('Testing: Overlapped Allan Variance Function', () => {
 describe('Testing: Modified Allan Variance Function', () => {
   let time_limit = 300;
   let samples = 100000;
-  let data = utils.getTestData(samples)
+  let data = utils.generateTestData(samples)
 
   test(`Time should take less than ${time_limit}ms for ${samples} samples freq data`, () => {
     let start = new Date()

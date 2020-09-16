@@ -1,4 +1,4 @@
-const {generateLogTauData, arrayOfEveryNthElements, freqToPhase, validateData, DATA_TYPES} = require('./allan_internal')
+const {generateLogTauData, freqToPhase, validateData, DATA_TYPES} = require('./allan_internal')
 
 module.exports = {
   /**
@@ -130,6 +130,5 @@ function calculateAllanPhase(data, m, tau, overlap = true) {
     size++;
   }
   let mult = 2 * size * tau**2;
-
   return Math.sqrt(sigma / mult)
 }
