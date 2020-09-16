@@ -18,6 +18,21 @@ The Allan variance equation [1, 2]:
 
 where <img src="https://render.githubusercontent.com/render/math?math=\tau"> is the observation period, <img src="https://render.githubusercontent.com/render/math?math=\widebar{y}_{n}"> is the nth fractional frequency average over the observation time <img src="https://render.githubusercontent.com/render/math?math=\tau">.
 
+The estimator value for non-overlapped Allan function [2]:
+<p align="center">
+<img src="https://render.githubusercontent.com/render/math?math=\sigma^2_y(n \tau_0) = \frac{1}{2 n^2 \tau_0^2 ((N - 1)/n - 1)} \sum_{i=0}^{(N - 1)/n - 2} \left( x_{ni %2B 2n} - 2x_{ni %2B n} %2B x_{ni} \right)^2">
+</p>
+
+The estimator value for overlapped Allan function [2]:
+<p align="center">
+<img src="https://render.githubusercontent.com/render/math?math=\sigma^2_y(n \tau_0) = \frac{1}{2 n^2 \tau_0^2 (N - 2n)} \sum_{i=0}^{N - 2n %2B - 1} \left( x_{i %2B 2n} - 2x_{i %2B n} %2B x_{i} \right)^2">
+</p>
+
+The estimator values for modified Allan function [2]:
+<p align="center">
+<img src="https://render.githubusercontent.com/render/math?math=mod \sigma^2_y(n \tau_0) = \frac{1}{2 n^4 \tau_0^2 (N - 3n %2B 1)} \sum_{j=0}^{M - 3n %2B 1} \left( \sum_{i=j}^{j %2B n - 1} x_{i %2B 2n} - 2x_{i %2B n} %2B x_{i} \right)^2">
+</p>
+
 There are libraries for other languages: python [3], matlab [4].
 
 ## 2. Installation
@@ -35,8 +50,9 @@ yarn add allan
 ## 2. Library Use
 
 For now the library has the following functions:
-- `allanDev` - calculates Standard Allan deviation
-- `overAllanDev` - calculates Overlapped Allan deviation
+- `allanDev` - calculates Standard Allan deviation;
+- `overAllanDev` - calculates Overlapped Allan deviation;
+- `modAllanDev` - calculates Modified Allan deviation.
 
 All these functions have the same structure of the arguments and the same structure of the output object.
 
