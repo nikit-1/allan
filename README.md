@@ -33,6 +33,9 @@ The estimator values for modified Allan function [2]:
 <img src="https://render.githubusercontent.com/render/math?math=mod \sigma^2_y(n \tau_0) = \frac{1}{2 n^4 \tau_0^2 (N - 3n %2B 1)} \sum_{j=0}^{M - 3n %2B 1} \left( \sum_{i=j}^{j %2B n - 1} x_{i %2B 2n} - 2x_{i %2B n} %2B x_{i} \right)^2">
 </p>
 
+Calculation simplified in code [to single-loop](.github/CALCULATIONS.md).
+
+
 There are libraries for other languages: python [3], matlab [4].
 
 ## 2. Installation
