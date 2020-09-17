@@ -53,7 +53,7 @@ yarn add allan
 ## 2. Library Use
 
 For now the library has the following functions:
-- `allanDev` - calculates Standard Allan deviation;
+- `allanDev` - calculates Non-overlapped Allan deviation (overlapped is preffered);
 - `overAllanDev` - calculates Overlapped Allan deviation;
 - `modAllanDev` - calculates Modified Allan deviation.
 

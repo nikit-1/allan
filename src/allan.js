@@ -3,7 +3,7 @@ const SMALLEST_SIZE_VALUE = 3;
 
 module.exports = {
   /**
-   * Calculates Standard Allan deviation.
+   * Calculates Non-overlapped Allan deviation.
    * @param {Array.<Number>} data - array of data
    * @param {String} [data_type] - 'freq' for frequency, 'phase' - for phase data
    * @param {Number} [rate] - data samples rate
