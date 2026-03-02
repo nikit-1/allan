@@ -1,0 +1,13 @@
+src
+package-lock.json
+tsconfig.json
+
+._*
+.git
+.gitignore
+
+.idea
+.prettier*
+.eslint*
+
+.npm
