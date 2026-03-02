@@ -12,26 +12,29 @@ Allan variance is a beautiful instrument for the stability analysis of the signa
 
 The Allan variance equation [1, 2]:
 
-<p align="center">
-<img src="https://render.githubusercontent.com/render/math?math=\sigma^2_y(\tau) = \frac{1}{2} \langle ( \widebar{y}_{n %2B 1} - \widebar{y}_{n} )^2 \rangle">
-</p>
+$$
+\sigma^2_y(\tau) = \frac{1}{2} \langle ( \overline{y}_{n + 1} - \overline{y}_{n} )^2 \rangle
+$$
 
-where <img src="https://render.githubusercontent.com/render/math?math=\tau"> is the observation period, <img src="https://render.githubusercontent.com/render/math?math=\widebar{y}_{n}"> is the nth fractional frequency average over the observation time <img src="https://render.githubusercontent.com/render/math?math=\tau">.
+where $\tau$ is the observation period, $\overline{y}_{n}$ is the nth fractional frequency average over the observation time $\tau$.
 
 The estimator value for non-overlapped Allan function [2]:
-<p align="center">
-<img src="https://render.githubusercontent.com/render/math?math=\sigma^2_y(n \tau_0) = \frac{1}{2 n^2 \tau_0^2 ((N - 1)/n - 1)} \sum_{i=0}^{(N - 1)/n - 2} \left( x_{ni %2B 2n} - 2x_{ni %2B n} %2B x_{ni} \right)^2">
-</p>
+
+$$
+\sigma^2_y(n \tau_0) = \frac{1}{2 n^2 \tau_0^2 ((N - 1)/n - 1)} \sum_{i=0}^{(N - 1)/n - 2} \left( x_{ni + 2n} - 2x_{ni + n} + x_{ni} \right)^2
+$$
 
 The estimator value for overlapped Allan function [2]:
-<p align="center">
-<img src="https://render.githubusercontent.com/render/math?math=\sigma^2_y(n \tau_0) = \frac{1}{2 n^2 \tau_0^2 (N - 2n)} \sum_{i=0}^{N - 2n %2B - 1} \left( x_{i %2B 2n} - 2x_{i %2B n} %2B x_{i} \right)^2">
-</p>
+
+$$
+\sigma^2_y(n \tau_0) = \frac{1}{2 n^2 \tau_0^2 (N - 2n)} \sum_{i=0}^{N - 2n - 1} \left( x_{i + 2n} - 2x_{i + n} + x_{i} \right)^2
+$$
 
 The estimator values for modified Allan function [2]:
-<p align="center">
-<img src="https://render.githubusercontent.com/render/math?math=mod \sigma^2_y(n \tau_0) = \frac{1}{2 n^4 \tau_0^2 (N - 3n %2B 1)} \sum_{j=0}^{M - 3n %2B 1} \left( \sum_{i=j}^{j %2B n - 1} x_{i %2B 2n} - 2x_{i %2B n} %2B x_{i} \right)^2">
-</p>
+
+$$
+mod \sigma^2_y(n \tau_0) = \frac{1}{2 n^4 \tau_0^2 (N - 3n + 1)} \sum_{j=0}^{M - 3n + 1} \left( \sum_{i=j}^{j + n - 1} x_{i + 2n} - 2x_{i + n} + x_{i} \right)^2
+$$
 
 Calculation simplified in code [to single-loop](.github/CALCULATIONS.md).
 
@@ -40,14 +43,8 @@ There are libraries for other languages: python [3], matlab [4].
 
 ## 2. Installation
 
-You can install it through npm
 ```
-npm install allan
-```
-
-or through yarn
-```
-yarn add allan
+npm i allan
 ```
 
 ## 2. Library Use

@@ -1,24 +1,45 @@
 {
-  "name": "allan",
-  "version": "0.1.0-beta.8",
-  "author": "N. V. Tribulev <tribulev@gmail.com>",
-  "license": "MIT",
-  "description": "Javascript Allan Variance library",
-  "keywords": [
-    "Allan variance",
-    "statistical analysis",
-    "variance",
-    "stability"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/nikit-1/allan.git"
-  },
-  "main": "index.js",
-  "scripts": {
-    "test": "jest"
-  },
-  "devDependencies": {
-    "jest": "^26.4.2"
-  }
+    "name": "allan",
+    "version": "0.1.0-beta.8",
+    "author": "N. V. Tribulev <tribulev@gmail.com>",
+    "license": "MIT",
+    "description": "Javascript Allan Variance library",
+    "type": "module",
+    "keywords": [
+        "Allan variance",
+        "statistical analysis",
+        "variance",
+        "stability"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/nikit-1/allan.git"
+    },
+    "exports": {
+        "import": "./dist/index.js",
+        "types": "./dist/index.d.ts"
+    },
+    "scripts": {
+        "build": "tsc && tsup",
+        "build-watch": "tsup --watch",
+        "lint": "tsc",
+        "eslint": "npx eslint --ext .ts,.js --fix .",
+        "eslint-check": "npx eslint --ext .ts,.js .",
+        "prettier": "npx prettier --write .",
+        "prettier-check": "npx prettier --check .",
+        "check-pack": "npm pack --dry-run",
+        "test": "vitest"
+    },
+    "devDependencies": {
+        "@eslint/js": "^10.0.1",
+        "@types/node": "^25.3.3",
+        "@typescript-eslint/eslint-plugin": "^8.56.1",
+        "eslint": "^10.0.2",
+        "globals": "^17.4.0",
+        "prettier": "^3.8.1",
+        "tsup": "^8.5.1",
+        "typescript": "^5.9.3",
+        "typescript-eslint": "^8.56.1",
+        "vitest": "^4.0.18"
+    }
 }
