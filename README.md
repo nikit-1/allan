@@ -1,8 +1,6 @@
 # Javascript Allan variance library
 
-<p>
-  <img src="https://github.com/nikit-1/allan/workflows/GitHub%20Test%20&%20NPM%20Publish/badge.svg" />
-</p>
+[![CI & NPM Publish](https://github.com/nikit-1/allan/actions/workflows/main.yml/badge.svg)](https://github.com/nikit-1/allan/actions/workflows/main.yml)
 
 > :warning: **This is a beta vesion**. Some changes in naming and structure still possible.
 

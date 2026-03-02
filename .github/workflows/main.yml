@@ -3,7 +3,7 @@ name: CI & NPM Publish
 on:
   push:
     branches: ["**"]
-    tags: ["v*.*.*"]
+    tags: ["v*"]
 
 jobs:
   build-and-test:
